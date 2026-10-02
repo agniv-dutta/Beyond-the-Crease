@@ -17,6 +17,7 @@ export const DEFAULT_PREFS: Prefs = {
   favouriteTeamIds: [],
   favouriteAthleteIds: [],
   accessibilityNeeds: [],
+  soundEnabled: false,
 };
 
 interface PrefsState extends Prefs {
@@ -30,6 +31,8 @@ interface PrefsState extends Prefs {
   setReducedMotion: (on: boolean) => void;
   setPlainLanguage: (on: boolean) => void;
   setLowData: (on: boolean) => void;
+  setSoundEnabled: (on: boolean) => void;
+  toggleSound: () => void;
   completeOnboarding: (patch: Partial<Prefs>) => void;
   toggleAccessibilityNeed: (need: string) => void;
   resetOnboarding: () => void;
@@ -42,6 +45,7 @@ interface PrefsState extends Prefs {
 function applyToDocument(prefs: Prefs): void {
   const root = document.documentElement;
   root.setAttribute('data-theme', prefs.theme);
+  root.setAttribute('data-sport', prefs.sport);
   root.setAttribute('data-text-size', prefs.textSize);
   root.setAttribute('data-contrast', prefs.highContrast ? 'high' : 'normal');
   root.setAttribute('data-motion', prefs.reducedMotion ? 'reduced' : 'full');
@@ -66,7 +70,10 @@ export const usePrefs = create<PrefsState>()(
         set({ theme });
         applyToDocument(get());
       },
-      setSport: (sport) => set({ sport }),
+      setSport: (sport) => {
+        set({ sport });
+        applyToDocument(get());
+      },
       setLanguage: (language) => {
         set({ language });
         setLanguage(language);
@@ -96,6 +103,8 @@ export const usePrefs = create<PrefsState>()(
         set({ lowData });
         applyToDocument(get());
       },
+      setSoundEnabled: (soundEnabled) => set({ soundEnabled }),
+      toggleSound: () => set((s) => ({ soundEnabled: !s.soundEnabled })),
       completeOnboarding: (patch) => {
         set({ ...patch, onboarded: true });
         setLanguage(get().language);
@@ -148,6 +157,7 @@ export const usePrefs = create<PrefsState>()(
         favouriteTeamIds: state.favouriteTeamIds,
         favouriteAthleteIds: state.favouriteAthleteIds,
         accessibilityNeeds: state.accessibilityNeeds,
+        soundEnabled: state.soundEnabled,
       }),
       onRehydrateStorage: () => (state) => {
         if (!state) return;

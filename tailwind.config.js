@@ -16,45 +16,47 @@ export default {
     },
     extend: {
       colors: {
+        /* Palette colors use the -rgb channel triples so opacity modifiers
+           (/60, /80 …) compile; the hex vars remain for direct var() use. */
         ink: {
-          DEFAULT: 'var(--btc-ink)',
-          soft: 'var(--btc-ink-soft)',
-          raised: 'var(--btc-ink-raised)',
+          DEFAULT: 'rgb(var(--btc-ink-rgb) / <alpha-value>)',
+          soft: 'rgb(var(--btc-ink-soft-rgb) / <alpha-value>)',
+          raised: 'rgb(var(--btc-ink-raised-rgb) / <alpha-value>)',
         },
         canvas: {
-          DEFAULT: 'var(--btc-canvas)',
-          dim: 'var(--btc-canvas-dim)',
-          deep: 'var(--btc-canvas-deep)',
+          DEFAULT: 'rgb(var(--btc-canvas-rgb) / <alpha-value>)',
+          dim: 'rgb(var(--btc-canvas-dim-rgb) / <alpha-value>)',
+          deep: 'rgb(var(--btc-canvas-deep-rgb) / <alpha-value>)',
         },
         pomelo: {
-          DEFAULT: 'var(--btc-pomelo)',
-          soft: 'var(--btc-pomelo-soft)',
-          deep: 'var(--btc-pomelo-deep)',
+          DEFAULT: 'rgb(var(--btc-pomelo-rgb) / <alpha-value>)',
+          soft: 'rgb(var(--btc-pomelo-soft-rgb) / <alpha-value>)',
+          deep: 'rgb(var(--btc-pomelo-deep-rgb) / <alpha-value>)',
         },
         kesar: {
-          DEFAULT: 'var(--btc-kesar)',
-          soft: 'var(--btc-kesar-soft)',
-          deep: 'var(--btc-kesar-deep)',
+          DEFAULT: 'rgb(var(--btc-kesar-rgb) / <alpha-value>)',
+          soft: 'rgb(var(--btc-kesar-soft-rgb) / <alpha-value>)',
+          deep: 'rgb(var(--btc-kesar-deep-rgb) / <alpha-value>)',
         },
         pistachio: {
-          DEFAULT: 'var(--btc-pistachio)',
-          soft: 'var(--btc-pistachio-soft)',
-          deep: 'var(--btc-pistachio-deep)',
+          DEFAULT: 'rgb(var(--btc-pistachio-rgb) / <alpha-value>)',
+          soft: 'rgb(var(--btc-pistachio-soft-rgb) / <alpha-value>)',
+          deep: 'rgb(var(--btc-pistachio-deep-rgb) / <alpha-value>)',
         },
         rose: {
-          DEFAULT: 'var(--btc-rose)',
-          soft: 'var(--btc-rose-soft)',
-          deep: 'var(--btc-rose-deep)',
+          DEFAULT: 'rgb(var(--btc-rose-rgb) / <alpha-value>)',
+          soft: 'rgb(var(--btc-rose-soft-rgb) / <alpha-value>)',
+          deep: 'rgb(var(--btc-rose-deep-rgb) / <alpha-value>)',
         },
         mulberry: {
-          DEFAULT: 'var(--btc-mulberry)',
-          soft: 'var(--btc-mulberry-soft)',
-          deep: 'var(--btc-mulberry-deep)',
+          DEFAULT: 'rgb(var(--btc-mulberry-rgb) / <alpha-value>)',
+          soft: 'rgb(var(--btc-mulberry-soft-rgb) / <alpha-value>)',
+          deep: 'rgb(var(--btc-mulberry-deep-rgb) / <alpha-value>)',
         },
         silver: {
-          DEFAULT: 'var(--btc-silver)',
-          soft: 'var(--btc-silver-soft)',
-          bright: 'var(--btc-silver-bright)',
+          DEFAULT: 'rgb(var(--btc-silver-rgb) / <alpha-value>)',
+          soft: 'rgb(var(--btc-silver-soft-rgb) / <alpha-value>)',
+          bright: 'rgb(var(--btc-silver-bright-rgb) / <alpha-value>)',
         },
         // Semantic roles, resolved per-theme via CSS variables
         surface: 'rgb(var(--btc-surface-rgb) / <alpha-value>)',

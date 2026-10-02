@@ -271,7 +271,7 @@ export default function HomePage() {
 
       {/* ----------------------------------------------------------- parity */}
       <section className="container">
-        <Card className="mulberry-deep jaali-panel flex flex-col gap-6 overflow-hidden p-8 text-canvas sm:p-10">
+        <Card className="bg-mulberry-deep jaali-panel flex flex-col gap-6 overflow-hidden p-8 text-canvas sm:p-10">
           <div className="flex flex-col gap-4 sm:flex-row sm:items-end sm:justify-between">
             <div className="flex max-w-xl flex-col gap-3">
               <span className="sticker self-start bg-kesar text-ink">

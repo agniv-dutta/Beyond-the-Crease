@@ -360,6 +360,7 @@ export interface Prefs {
   favouriteTeamIds: string[];
   favouriteAthleteIds: string[];
   accessibilityNeeds: string[];
+  soundEnabled: boolean;
 }
 
 export interface ToastMessage {

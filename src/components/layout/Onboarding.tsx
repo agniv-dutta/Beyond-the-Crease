@@ -2,6 +2,7 @@ import { useCallback, useState } from 'react';
 import { Link } from 'react-router-dom';
 import { Check, Moon, Sun } from 'lucide-react';
 import { Button, Segmented, Slider, Toggle } from '@/components/ui';
+import { SportIcon } from '@/components/SportIcon';
 import { SPORTS } from '@/data/sports';
 import { LANGUAGES } from '@/i18n/resources';
 import { usePrefs } from '@/store/prefs';
@@ -106,7 +107,7 @@ export function Onboarding() {
                 )}
               >
                 <span aria-hidden className="text-xl">
-                  {s.icon}
+                  <SportIcon name={s.icon} className="h-6 w-6" />
                 </span>
                 <span className="flex flex-1 flex-col gap-0.5">
                   <span className="font-body font-semibold text-body">{s.label}</span>

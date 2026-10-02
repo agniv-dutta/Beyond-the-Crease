@@ -43,6 +43,41 @@
     --btc-silver-soft: #e1e4ea;
     --btc-silver-bright: #f0f2f6;
 
+    /* Same palette as space-separated channels so Tailwind can build opacity
+       variants (text-canvas/80, bg-ink/60 …). Hex vars above stay for direct
+       var() consumers: gradients, swatches, contrast maths. */
+    --btc-ink-rgb: 45 18 56;
+    --btc-ink-soft-rgb: 62 26 77;
+    --btc-ink-raised-rgb: 74 34 89;
+
+    --btc-canvas-rgb: 242 230 207;
+    --btc-canvas-dim-rgb: 232 216 187;
+    --btc-canvas-deep-rgb: 220 200 166;
+
+    --btc-pomelo-rgb: 255 111 142;
+    --btc-pomelo-soft-rgb: 255 160 182;
+    --btc-pomelo-deep-rgb: 217 74 108;
+
+    --btc-kesar-rgb: 242 179 61;
+    --btc-kesar-soft-rgb: 247 200 107;
+    --btc-kesar-deep-rgb: 200 144 31;
+
+    --btc-pistachio-rgb: 169 204 107;
+    --btc-pistachio-soft-rgb: 196 222 147;
+    --btc-pistachio-deep-rgb: 133 168 74;
+
+    --btc-rose-rgb: 244 166 183;
+    --btc-rose-soft-rgb: 249 198 209;
+    --btc-rose-deep-rgb: 211 127 148;
+
+    --btc-mulberry-rgb: 110 31 75;
+    --btc-mulberry-soft-rgb: 138 50 99;
+    --btc-mulberry-deep-rgb: 78 20 52;
+
+    --btc-silver-rgb: 207 210 218;
+    --btc-silver-soft-rgb: 225 228 234;
+    --btc-silver-bright-rgb: 240 242 246;
+
     /* Semantic roles — Kulfi (light) */
     --btc-surface-rgb: 251 243 226;
     --btc-surface-raised-rgb: 255 249 238;
@@ -87,6 +122,28 @@
     --btc-muted-rgb: 62 26 77;
     --btc-grain-opacity: 0;
     --btc-jaali-opacity: 0.14;
+  }
+
+  /* Sport-specific accent shifts (E4) */
+  :root[data-sport='cricket'] {
+    --btc-accent-rgb: 255 111 142; /* Pomelo */
+    --btc-accent-ink-rgb: 45 18 56;
+  }
+  :root[data-sport='football'] {
+    --btc-accent-rgb: 169 204 107; /* Pistachio */
+    --btc-accent-ink-rgb: 45 18 56;
+  }
+  :root[data-sport='tennis'] {
+    --btc-accent-rgb: 242 179 61; /* Kesar */
+    --btc-accent-ink-rgb: 45 18 56;
+  }
+  :root[data-sport='hockey'] {
+    --btc-accent-rgb: 244 166 183; /* Rose */
+    --btc-accent-ink-rgb: 45 18 56;
+  }
+  :root[data-sport='athletics'] {
+    --btc-accent-rgb: 207 210 218; /* Silver */
+    --btc-accent-ink-rgb: 45 18 56;
   }
 
   [data-theme='dusk'][data-contrast='high'] {
@@ -317,6 +374,24 @@
   .jaali-panel {
     background-image: theme('backgroundImage.jaali');
     background-size: theme('backgroundSize.jaali');
+  }
+
+  /* ---------- Paper grain overlay ----------
+     Painted as an overlay instead of a background-image utility so it can sit
+     on top of gradients, flat colours and photos without clobbering them. */
+  .grain {
+    position: relative;
+  }
+
+  .grain::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    border-radius: inherit;
+    background-image: theme('backgroundImage.grain');
+    background-size: theme('backgroundSize.grain');
+    opacity: var(--btc-grain-opacity);
+    pointer-events: none;
   }
 
   /* ---------- Skip link ---------- */

@@ -1,5 +1,6 @@
 import { useState } from 'react';
 import { Check, ChevronDown } from 'lucide-react';
+import { SportIcon } from '@/components/SportIcon';
 import { SPORTS } from '@/data/sports';
 import { usePrefs } from '@/store/prefs';
 import { toast } from '@/store/toasts';
@@ -45,7 +46,9 @@ export function SportSwitcher({ compact = false }: { compact?: boolean }) {
           compact ? 'min-h-9' : 'min-h-11',
         )}
       >
-        <span aria-hidden>{current.icon}</span>
+        <span aria-hidden className="inline-flex">
+          <SportIcon name={current.icon} className="h-4 w-4" />
+        </span>
         <span className="hidden md:inline">{current.label}</span>
         <ChevronDown aria-hidden className="h-3.5 w-3.5 opacity-70" />
       </button>
@@ -71,7 +74,7 @@ export function SportSwitcher({ compact = false }: { compact?: boolean }) {
                   )}
                 >
                   <span aria-hidden className="mt-0.5 text-lg">
-                    {s.icon}
+                    <SportIcon name={s.icon} className="h-5 w-5" />
                   </span>
                   <span className="flex min-w-0 flex-1 flex-col">
                     <span className="flex items-center gap-2 font-body text-sm font-semibold text-body">

@@ -170,7 +170,7 @@ export default function DesignPage() {
               <li key={radius.name} className="flex items-center gap-3">
                 <span
                   aria-hidden
-                  className="h-12 w-20 border-2 border-accent bg-accent-soft"
+                  className="h-12 w-20 border-2 border-accent bg-accent/15"
                   style={{ borderRadius: radius.value }}
                 />
                 <span className="flex flex-col">

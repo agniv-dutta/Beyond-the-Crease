@@ -117,7 +117,7 @@ export default function PartnersPage() {
               return (
                 <Card
                   key={t.id}
-                  className={`flex flex-col gap-3 p-6 transition ${isActive ? 'border-accent shadow-card' : ''}`}
+className={`flex flex-col gap-3 p-6 transition ${isActive ? 'border-accent shadow-btc' : ''}`}
                 >
                   <div className="flex flex-wrap items-center gap-2">
                     <Icon aria-hidden className="h-5 w-5 text-accent" />

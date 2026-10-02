@@ -4,6 +4,7 @@ import { Radio, Sparkles, Zap } from 'lucide-react';
 import { Badge, Button, Card, EmptyState, ErrorState, Rail, SectionHeading, Segmented, SkeletonCardGrid } from '@/components/ui';
 import { MatchCard } from '@/components/match/MatchCard';
 import { FireTestEvent, LiveTicker } from '@/components/match/LiveTicker';
+import { MatchPredictionWidget } from '@/components/gamification/MatchPredictionWidget';
 import { useLiveSimulation } from '@/hooks/useLiveSimulation';
 import { api } from '@/api/client';
 import { useAsync } from '@/hooks/useAsync';
@@ -148,6 +149,8 @@ export default function LivePage() {
               <FireTestEvent type="milestone.reached" label="milestone.reached" />
             </div>
           </Card>
+
+          <MatchPredictionWidget matches={list} />
 
           <Card className="flex flex-col gap-4 p-6">
             <h2 className="font-display text-title text-body">Recent moments</h2>

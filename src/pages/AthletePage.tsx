@@ -1,6 +1,6 @@
 import { useMemo } from 'react';
 import { Link, useParams } from 'react-router-dom';
-import { ArrowLeft, Bell, Globe, Quote, Sparkles, TrendingUp } from 'lucide-react';
+import { ArrowLeft, Bell, Globe, Quote, Share2, Sparkles, TrendingUp } from 'lucide-react';
 import {
   Badge,
   Breadcrumbs,
@@ -19,6 +19,7 @@ import {
   TextLink,
 } from '@/components/ui';
 import { StoryCard } from '@/components/story/StoryCard';
+import { ShareCardModal } from '@/components/story/ShareCardModal';
 import { api } from '@/api/client';
 import { useAsync } from '@/hooks/useAsync';
 import { useState } from 'react';
@@ -41,6 +42,7 @@ const CHAPTER_TONE: Record<ArcChapter['kind'], 'silver' | 'accent' | 'kesar' | '
 export default function AthletePage() {
   const { id = '' } = useParams();
   const [tab, setTab] = useState('story');
+  const [shareOpen, setShareOpen] = useState(false);
   const state = useAsync((signal) => api.getAthlete(id, signal), [id]);
   const toggle = useGamification((s) => s.toggle);
   const following = useGamification((s) => s.followedAthleteIds.includes(id));
@@ -149,6 +151,13 @@ export default function AthletePage() {
                   icon={<Bell aria-hidden className="h-4 w-4" />}
                 >
                   {alerts ? 'Alerts on' : 'Alerts'}
+                </Button>
+                <Button
+                  variant="outline"
+                  onClick={() => setShareOpen(true)}
+                  icon={<Share2 aria-hidden className="h-4 w-4" />}
+                >
+                  Share Card
                 </Button>
                 <Link to={`/studio?athlete=${athlete.id}`}>
                   <Button variant="ghost" icon={<Sparkles aria-hidden className="h-4 w-4" />}>
@@ -308,6 +317,15 @@ export default function AthletePage() {
           }
         />
       </section>
+
+      {athlete && (
+        <ShareCardModal
+          open={shareOpen}
+          onClose={() => setShareOpen(false)}
+          athlete={athlete}
+          defaultTemplate="athlete"
+        />
+      )}
     </div>
   );
 }

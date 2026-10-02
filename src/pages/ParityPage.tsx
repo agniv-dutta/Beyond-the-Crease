@@ -1,5 +1,6 @@
 import { useMemo, useState } from 'react';
-import { Download, Globe, Info, TrendingUp } from 'lucide-react';
+import { Download, Globe, Info, Share2, TrendingUp } from 'lucide-react';
+import { ShareCardModal } from '@/components/story/ShareCardModal';
 import {
   Area,
   AreaChart,
@@ -73,6 +74,7 @@ export default function ParityPage() {
   const [months, setMonths] = useState<6 | 12 | 24>(24);
   const [growth, setGrowth] = useState(4.4);
   const [metric, setMetric] = useState<MetricId>('minutes');
+  const [shareOpen, setShareOpen] = useState(false);
 
   const state = useAsync(
     (signal) => api.getParity({ sport, region, platform, months, growth }, signal),
@@ -173,6 +175,9 @@ export default function ParityPage() {
             lede="24 months x 6 regions x 5 platforms x 5 sports, generated from a fixed seed so the same filter always returns the same rows. Change a filter and the whole page recomputes."
             action={
               <div className="flex flex-wrap items-center gap-2">
+                <Button variant="outline" onClick={() => setShareOpen(true)} icon={<Share2 aria-hidden className="h-4 w-4" />}>
+                  Share Stat Card
+                </Button>
                 <Button variant="secondary" onClick={exportCsv} icon={<Download aria-hidden className="h-4 w-4" />}>
                   Export CSV
                 </Button>
@@ -490,6 +495,18 @@ export default function ParityPage() {
           </p>
         </Disclosure>
       </section>
+
+      <ShareCardModal
+        open={shareOpen}
+        onClose={() => setShareOpen(false)}
+        defaultTemplate="parity"
+        parityStat={{
+          label: `Women's Share of ${METRIC_LABEL[metric]}`,
+          value: `${headlineShare}%`,
+          subtext: `${metric === 'minutes' ? 'Broadcast coverage minutes' : metric === 'mentions' ? 'Social media mentions' : 'Highlight clips'} across ${sport} over ${months} months.`,
+          gap: `${(50 - headlineShare).toFixed(1)}% gap to 50/50 parity`,
+        }}
+      />
     </div>
   );
 }

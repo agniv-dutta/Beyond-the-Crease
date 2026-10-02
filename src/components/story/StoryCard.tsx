@@ -1,9 +1,11 @@
 import { useMemo, useState } from 'react';
 import { Link } from 'react-router-dom';
-import { Bookmark, Heart, Languages, Play, Share2, Sparkles, Timer } from 'lucide-react';
+import { Bookmark, Headphones, Heart, Languages, Play, Share2, Sparkles, Timer } from 'lucide-react';
 import { Badge, Button, Card, IconButton, Monogram, Tooltip } from '@/components/ui';
 import { storyMotifClass } from '@/data/stories';
 import { useGamification } from '@/store/gamification';
+import { useAudioPlayer } from '@/store/audioPlayer';
+import { usePrefs } from '@/store/prefs';
 import { toast } from '@/store/toasts';
 import type { LanguageCode, Story } from '@/types';
 import { cn } from '@/utils/cn';
@@ -150,6 +152,27 @@ export function StoryCard({ story, size = 'default', rail, athleteNames, onOpen 
               }}
             >
               <Share2 aria-hidden className="h-4 w-4" />
+            </IconButton>
+          </Tooltip>
+
+          <Tooltip label="Listen to audio recap">
+            <IconButton
+              label="Listen to audio recap"
+              size="sm"
+              onClick={() => {
+                const appLang = usePrefs.getState().language;
+                const langToUse: LanguageCode = language ?? (story.translations[appLang] ? appLang : 'en');
+                const trans = story.translations[langToUse];
+                useAudioPlayer.getState().playStory({
+                  id: story.id,
+                  title: trans?.title ?? story.title,
+                  body: trans?.body ?? story.body,
+                  athleteName: athleteNames?.[0],
+                  language: langToUse,
+                });
+              }}
+            >
+              <Headphones aria-hidden className="h-4 w-4" />
             </IconButton>
           </Tooltip>
           {copied && <span className="font-body text-xs font-semibold text-accent">Copied</span>}

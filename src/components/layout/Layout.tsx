@@ -4,6 +4,9 @@ import { Header } from './Header';
 import { Footer } from './Footer';
 import { CommandPalette } from './CommandPalette';
 import { Onboarding } from './Onboarding';
+import { AudioMiniPlayer } from '@/components/story/AudioMiniPlayer';
+import { ConfettiEffect } from '@/components/gamification/ConfettiEffect';
+import { PitchModeTour } from '@/components/demo/PitchModeTour';
 
 export function Layout({ children }: { children: ReactNode }) {
   const touchStreak = useGamification((s) => s.touchStreak);
@@ -18,6 +21,9 @@ export function Layout({ children }: { children: ReactNode }) {
       <Header />
       {children}
       <Footer />
+      <AudioMiniPlayer />
+      <ConfettiEffect />
+      <PitchModeTour />
       <CommandPalette />
       <Onboarding />
     </div>

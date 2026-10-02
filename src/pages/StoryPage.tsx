@@ -26,6 +26,8 @@ import {
   TextLink,
 } from '@/components/ui';
 import { StoryCard } from '@/components/story/StoryCard';
+import { ShareCardModal } from '@/components/story/ShareCardModal';
+import { SportAdaptationBar } from '@/components/story/SportAdaptationBar';
 import { api } from '@/api/client';
 import { useAsync } from '@/hooks/useAsync';
 import { storyMotifClass } from '@/data/stories';
@@ -34,16 +36,19 @@ import { ATHLETE_BY_ID } from '@/data/athletes';
 import { TEAM_BY_ID } from '@/data/teams';
 import { LANGUAGES, LANGUAGE_BY_CODE } from '@/i18n/resources';
 import { useGamification } from '@/store/gamification';
+import { useAudioPlayer } from '@/store/audioPlayer';
 import { usePrefs } from '@/store/prefs';
 import { toast } from '@/store/toasts';
 import { useClipboard } from '@/hooks/useMisc';
-import type { LanguageCode } from '@/types';
+import type { LanguageCode, SportId } from '@/types';
 import { cn } from '@/utils/cn';
 import { compactNumber, longDate, readingLabel, relativeTime } from '@/utils/format';
 
 export default function StoryPage() {
   const { id = '' } = useParams();
   const [lang, setLang] = useState<LanguageCode | null>(null);
+  const [shareOpen, setShareOpen] = useState(false);
+  const [adaptedStory, setAdaptedStory] = useState<{ sport: SportId; title: string; body: string } | null>(null);
   const state = useAsync((signal) => api.getStory(id, signal), [id]);
   const toggle = useGamification((s) => s.toggle);
   const liked = useGamification((s) => s.likedStoryIds.includes(id));
@@ -93,10 +98,6 @@ export default function StoryPage() {
   const athletes = story.athleteIds.map((aid) => ATHLETE_BY_ID[aid]).filter(Boolean);
   const team = story.teamId ? TEAM_BY_ID[story.teamId] : undefined;
 
-  const share = () => {
-    void copy(`${translation?.title ?? story.title}\n\n#BeyondTheCrease`);
-    toast.info('Share text copied', 'The headline and hashtag are on your clipboard.');
-  };
 
   return (
     <div className="flex flex-col gap-12">
@@ -115,14 +116,15 @@ export default function StoryPage() {
             <div className="flex max-w-3xl flex-col gap-4">
               <div className="flex flex-wrap items-center gap-2">
                 <Badge tone="accent">{story.theme}</Badge>
-                <Badge tone="silver">{story.sport}</Badge>
+                <Badge tone="silver">{adaptedStory?.sport ?? story.sport}</Badge>
                 <Badge tone="silver">{story.kind}</Badge>
+                {adaptedStory && <Badge tone="kesar">Same story, new sport</Badge>}
                 {story.tone && <Badge tone="kesar">{story.tone}</Badge>}
                 <Badge tone={story.fairScore >= 70 ? 'pistachio' : 'rose'}>fairness {story.fairScore}</Badge>
               </div>
 
               <h1 className="font-display text-display text-balance text-body">
-                {translation?.title ?? story.title}
+                {adaptedStory?.title ?? translation?.title ?? story.title}
               </h1>
               <p className="font-body text-base leading-relaxed text-pretty text-muted">{story.summary}</p>
 
@@ -150,9 +152,15 @@ export default function StoryPage() {
 
         <div className="container grid gap-6 lg:grid-cols-[minmax(0,1fr)_18rem]">
           <div className="flex flex-col gap-6">
+            <SportAdaptationBar
+              currentSport={story.sport}
+              story={story}
+              onAdapt={setAdaptedStory}
+            />
+
             <Card className={cn('relative flex flex-col gap-5 overflow-hidden p-8', storyMotifClass(story.motif))}>
               <div className="flex flex-col gap-4 font-body text-base leading-[1.75] text-body">
-                {(translation?.body ?? story.body)
+                {(adaptedStory?.body ?? translation?.body ?? story.body)
                   .split('\n')
                   .filter((para) => para.trim().length > 0)
                   .map((para, i) => (
@@ -197,27 +205,39 @@ export default function StoryPage() {
                   size="sm"
                   onClick={() => {
                     toggle('sharedStoryIds', story.id);
-                    share();
+                    setShareOpen(true);
                   }}
                   icon={<Share2 aria-hidden className="h-4 w-4" />}
                 >
-                  Share
+                  Share Card
                 </Button>
                 <Button
-                  variant="ghost"
+                  variant="secondary"
                   size="sm"
                   onClick={() => {
                     toggle('sharedStoryIds', story.id);
-                    toast.info(
-                      'Listening recorded',
-                      'Audio is out of scope for the prototype, so the counter is honest about being a stub.',
-                    );
+                    useAudioPlayer.getState().playStory({
+                      id: story.id,
+                      title: translation?.title ?? story.title,
+                      body: translation?.body ?? story.body,
+                      athleteName: athletes[0]?.name,
+                      language: lang ?? 'en',
+                    });
                   }}
                   icon={<Headphones aria-hidden className="h-4 w-4" />}
                 >
-                  Listen · {compactNumber(story.listens)}
+                  Listen recap · {compactNumber(story.listens)}
                 </Button>
-                {copied && <span className="font-body text-xs font-semibold text-accent">Copied</span>}
+                <Button
+                  variant="outline"
+                  size="sm"
+                  onClick={() => {
+                    void copy(`${translation?.title ?? story.title}\n\n#BeyondTheCrease`);
+                  }}
+                  icon={<Share2 aria-hidden className="h-4 w-4" />}
+                >
+                  {copied ? 'Copied!' : 'Copy link'}
+                </Button>
               </div>
             </Card>
 
@@ -418,6 +438,14 @@ export default function StoryPage() {
           </div>
         </Card>
       </section>
+
+      <ShareCardModal
+        open={shareOpen}
+        onClose={() => setShareOpen(false)}
+        story={story}
+        athlete={athletes[0]}
+        defaultTemplate="quote"
+      />
     </div>
   );
 }

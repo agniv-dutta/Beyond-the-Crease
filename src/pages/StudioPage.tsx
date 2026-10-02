@@ -1,6 +1,5 @@
-import { useEffect, useMemo, useRef, useState } from 'react';
+import { useEffect, useMemo, useState } from 'react';
 import { Link, useSearchParams } from 'react-router-dom';
-import { toPng } from 'html-to-image';
 import {
   AlertTriangle,
   Check,
@@ -23,7 +22,6 @@ import {
   Disclosure,
   EmptyState,
   Input,
-  Modal,
   ProgressBar,
   SectionHeading,
   Segmented,
@@ -38,6 +36,7 @@ import {
 } from '@/components/ui';
 import { api } from '@/api/client';
 import { useAsync } from '@/hooks/useAsync';
+import { ShareCardModal } from '@/components/story/ShareCardModal';
 import { useStudio } from '@/store/studio';
 import { useGamification } from '@/store/gamification';
 import { toast } from '@/store/toasts';
@@ -82,8 +81,6 @@ export default function StudioPage() {
   const [fixing, setFixing] = useState(false);
   const [fairOpen, setFairOpen] = useState(false);
   const [shareOpen, setShareOpen] = useState(false);
-  const cardRef = useRef<HTMLDivElement>(null);
-  const [exporting, setExporting] = useState(false);
 
   const studio = useStudio();
   const sport = usePrefs((s) => s.sport);
@@ -211,22 +208,6 @@ export default function StudioPage() {
     }
   };
 
-  const exportCard = async () => {
-    if (!cardRef.current) return;
-    setExporting(true);
-    try {
-      const dataUrl = await toPng(cardRef.current, { cacheBust: true, pixelRatio: 2 });
-      const anchor = document.createElement('a');
-      anchor.href = dataUrl;
-      anchor.download = 'beyond-the-crease-card.png';
-      anchor.click();
-      toast.success('Card exported', '1200px PNG, saved to your downloads.');
-    } catch {
-      toast.warn('Export failed', 'The canvas could not be captured. Try the copy button instead.');
-    } finally {
-      setExporting(false);
-    }
-  };
 
   const toneMeta = TONES.find((t) => t.value === studio.tone);
   const athleteList = athletes.data ?? [];
@@ -625,38 +606,32 @@ const published = studio.drafts.filter((d) => d.published);
         )}
       </Sheet>
 
-      <Modal open={shareOpen} onClose={() => setShareOpen(false)} title="Share card">
-        <div className="flex flex-col gap-4">
-          <div
-            ref={cardRef}
-            className="scallop grain flex flex-col gap-3 bg-ink p-6 text-canvas"
-            aria-label="Share card preview"
-          >
-            <p className="font-body text-xs uppercase tracking-[0.2em] text-silver">Beyond the Crease</p>
-            <p className="font-display text-display-sm text-balance text-canvas">{title || 'Your headline here'}</p>
-            <p className="line-clamp-4 font-body text-sm text-silver">{body || 'Your body copy will appear on the card.'}</p>
-            <p className="font-body text-xs text-kesar">#BeyondTheCrease · demo data</p>
-          </div>
-          <div className="flex flex-wrap gap-2">
-            <Button onClick={() => void exportCard()} loading={exporting} icon={<Download aria-hidden className="h-4 w-4" />}>
-              Download PNG
-            </Button>
-            <Button
-              variant="outline"
-              onClick={() => {
-                void copy(`${title}\n\n${body}\n\n#BeyondTheCrease`);
-                toast.info('Copied with hashtag');
-              }}
-              icon={<Copy aria-hidden className="h-4 w-4" />}
-            >
-              Copy text
-            </Button>
-          </div>
-          <p className="font-body text-xs text-muted">
-            The PNG is generated in your browser with html-to-image. No image ever leaves this machine.
-          </p>
-        </div>
-      </Modal>
+      <ShareCardModal
+        open={shareOpen}
+        onClose={() => setShareOpen(false)}
+        defaultTemplate="quote"
+        story={{
+          id: 'draft',
+          title: title || 'Draft story headline',
+          summary: body ? body.slice(0, 160) : 'Beyond the Crease editorial draft',
+          body: body || 'Draft body text written in Beyond the Crease Studio.',
+          sport,
+          theme: 'Debut',
+          kind: 'generated',
+          authorName: 'Studio Writer',
+          publishedAtISO: new Date().toISOString(),
+          likes: 0,
+          saves: 0,
+          shares: 0,
+          listens: 0,
+          translations: {},
+          motif: 'kesar',
+          fairScore: 98,
+          tags: ['studio', sport],
+          readingMinutes: 1,
+          athleteIds: subject.athleteId ? [subject.athleteId] : [],
+        }}
+      />
 
       <section className="container flex flex-wrap items-center gap-3 pb-8">
         <TextLink to="/athletes">Pick an athlete to write about</TextLink>
