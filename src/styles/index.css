@@ -1,0 +1,441 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* ==========================================================================
+   Beyond the Crease — "Mithai Dusk" design tokens
+   Palette is fixed brand; only semantic roles re-resolve per theme.
+   ========================================================================== */
+
+@layer base {
+  :root,
+  [data-theme='kulfi'] {
+    /* Brand palette — fixed, never theme-dependent */
+    --btc-ink: #2d1238;
+    --btc-ink-soft: #3e1a4d;
+    --btc-ink-raised: #4a2259;
+
+    --btc-canvas: #f2e6cf;
+    --btc-canvas-dim: #e8d8bb;
+    --btc-canvas-deep: #dcc8a6;
+
+    --btc-pomelo: #ff6f8e;
+    --btc-pomelo-soft: #ffa0b6;
+    --btc-pomelo-deep: #d94a6c;
+
+    --btc-kesar: #f2b33d;
+    --btc-kesar-soft: #f7c86b;
+    --btc-kesar-deep: #c8901f;
+
+    --btc-pistachio: #a9cc6b;
+    --btc-pistachio-soft: #c4de93;
+    --btc-pistachio-deep: #85a84a;
+
+    --btc-rose: #f4a6b7;
+    --btc-rose-soft: #f9c6d1;
+    --btc-rose-deep: #d37f94;
+
+    --btc-mulberry: #6e1f4b;
+    --btc-mulberry-soft: #8a3263;
+    --btc-mulberry-deep: #4e1434;
+
+    --btc-silver: #cfd2da;
+    --btc-silver-soft: #e1e4ea;
+    --btc-silver-bright: #f0f2f6;
+
+    /* Semantic roles — Kulfi (light) */
+    --btc-surface-rgb: 251 243 226;
+    --btc-surface-raised-rgb: 255 249 238;
+    --btc-surface-sunken-rgb: 234 220 192;
+    --btc-line-rgb: 194 178 168;
+    --btc-body-rgb: 45 18 56;
+    --btc-muted-rgb: 107 74 95;
+    --btc-accent-rgb: 255 111 142;
+    --btc-accent-ink-rgb: 45 18 56;
+    --btc-live-rgb: 217 74 108;
+    --btc-positive-rgb: 112 143 43;
+
+    --btc-grain-opacity: 0.05;
+    --btc-jaali-opacity: 0.5;
+    --btc-scrim: 45 18 56;
+  }
+
+  [data-theme='dusk'] {
+    /* Brand palette stays identical — dusk flips the surfaces and ink roles */
+    --btc-surface-rgb: 53 24 63;
+    --btc-surface-raised-rgb: 67 31 80;
+    --btc-surface-sunken-rgb: 38 15 46;
+    --btc-line-rgb: 89 54 107;
+    --btc-body-rgb: 242 230 207;
+    --btc-muted-rgb: 201 180 196;
+    --btc-accent-rgb: 255 111 142;
+    --btc-accent-ink-rgb: 45 18 56;
+    --btc-live-rgb: 255 111 142;
+    --btc-positive-rgb: 169 204 107;
+
+    --btc-grain-opacity: 0.08;
+    --btc-jaali-opacity: 0.22;
+    --btc-scrim: 20 8 24;
+  }
+
+  /* High contrast: keep the palette, push edges apart. */
+  [data-contrast='high'] {
+    --btc-surface-rgb: 255 250 241;
+    --btc-surface-raised-rgb: 255 253 248;
+    --btc-surface-sunken-rgb: 240 228 204;
+    --btc-line-rgb: 45 18 56;
+    --btc-muted-rgb: 62 26 77;
+    --btc-grain-opacity: 0;
+    --btc-jaali-opacity: 0.14;
+  }
+
+  [data-theme='dusk'][data-contrast='high'] {
+    --btc-surface-rgb: 14 5 17;
+    --btc-surface-raised-rgb: 30 12 36;
+    --btc-surface-sunken-rgb: 8 3 10;
+    --btc-line-rgb: 242 230 207;
+    --btc-muted-rgb: 242 212 226;
+    --btc-grain-opacity: 0;
+    --btc-jaali-opacity: 0.08;
+  }
+
+  :root {
+    --btc-radius-scallop: 20px;
+    --btc-sc-radius: 16px;
+  }
+
+  * {
+    @apply border-line;
+  }
+
+  html {
+    -webkit-text-size-adjust: 100%;
+    scroll-behavior: smooth;
+  }
+
+  [data-text-size='sm'] {
+    font-size: 93.75%;
+  }
+  [data-text-size='md'] {
+    font-size: 100%;
+  }
+  [data-text-size='lg'] {
+    font-size: 112.5%;
+  }
+  [data-text-size='xl'] {
+    font-size: 125%;
+  }
+
+  body {
+    @apply bg-canvas font-body text-body antialiased;
+    font-synthesis-weight: none;
+    text-rendering: optimizeLegibility;
+    background-color: rgb(var(--btc-surface-sunken-rgb));
+    color: rgb(var(--btc-body-rgb));
+    min-height: 100dvh;
+  }
+
+  /* Paper grain + jaali lattice — the sweet-shop counter */
+  body::before,
+  body::after {
+    content: '';
+    position: fixed;
+    inset: 0;
+    pointer-events: none;
+    z-index: 0;
+  }
+
+  body::before {
+    background-image: theme('backgroundImage.jaali');
+    background-size: theme('backgroundSize.jaali');
+    opacity: var(--btc-jaali-opacity);
+    mix-blend-mode: multiply;
+  }
+
+  body::after {
+    background-image: theme('backgroundImage.grain');
+    background-size: theme('backgroundSize.grain');
+    opacity: var(--btc-grain-opacity);
+  }
+
+  [data-theme='dusk'] body::before,
+  [data-contrast='high'] body::before {
+    mix-blend-mode: screen;
+  }
+
+  [data-dyslexia-font='true'] body {
+    font-family: theme('fontFamily.dyslexia');
+    letter-spacing: 0.02em;
+    word-spacing: 0.08em;
+    line-height: 1.75;
+  }
+
+  [data-dyslexia-font='true'] .font-display {
+    font-family: theme('fontFamily.dyslexia');
+    letter-spacing: 0;
+  }
+
+  [data-low-data='true'] [data-heavy] {
+    display: none !important;
+  }
+
+  :focus-visible {
+    outline: 3px solid rgb(var(--btc-accent-rgb));
+    outline-offset: 2px;
+    border-radius: 6px;
+  }
+
+  [data-contrast='high'] :focus-visible {
+    outline-color: rgb(var(--btc-kesar));
+    outline-width: 4px;
+  }
+
+  ::selection {
+    background: rgb(var(--btc-kesar) / 0.4);
+    color: rgb(var(--btc-ink));
+  }
+
+  /* Reduced motion — user preference wins over everything */
+  @media (prefers-reduced-motion: reduce) {
+    *,
+    *::before,
+    *::after {
+      animation-duration: 0.001ms !important;
+      animation-iteration-count: 1 !important;
+      transition-duration: 0.001ms !important;
+      scroll-behavior: auto !important;
+    }
+  }
+
+  [data-motion='reduced'] *,
+  [data-motion='reduced'] *::before,
+  [data-motion='reduced'] *::after {
+    animation-duration: 0.001ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.001ms !important;
+    scroll-behavior: auto !important;
+  }
+}
+
+@layer components {
+  /* ---------- Scalloped edges (barfi tray motif) ---------- */
+  .scallop-b {
+    --sc: 15px;
+    -webkit-mask: radial-gradient(
+        circle at 50% 100%,
+        rgb(0 0 0 / 0) calc(var(--sc) - 1px),
+        rgb(0 0 0 / 1) var(--sc)
+      )
+      50% 100% / calc(var(--sc) * 2) 100% repeat-x;
+    mask: radial-gradient(
+        circle at 50% 100%,
+        rgb(0 0 0 / 0) calc(var(--sc) - 1px),
+        rgb(0 0 0 / 1) var(--sc)
+      )
+      50% 100% / calc(var(--sc) * 2) 100% repeat-x;
+  }
+
+  .scallop-t {
+    --sc: 15px;
+    -webkit-mask: radial-gradient(
+        circle at 50% 0,
+        rgb(0 0 0 / 0) calc(var(--sc) - 1px),
+        rgb(0 0 0 / 1) var(--sc)
+      )
+      50% 0 / calc(var(--sc) * 2) 100% repeat-x;
+    mask: radial-gradient(
+        circle at 50% 0,
+        rgb(0 0 0 / 0) calc(var(--sc) - 1px),
+        rgb(0 0 0 / 1) var(--sc)
+      )
+      50% 0 / calc(var(--sc) * 2) 100% repeat-x;
+  }
+
+  .scallop {
+    --sc: 14px;
+    -webkit-mask:
+      radial-gradient(circle at 50% 0, rgb(0 0 0 / 0) calc(var(--sc) - 1px), rgb(0 0 0 / 1) var(--sc))
+        50% 0 / calc(var(--sc) * 2) 100% repeat-x,
+      radial-gradient(
+          circle at 50% 100%,
+          rgb(0 0 0 / 0) calc(var(--sc) - 1px),
+          rgb(0 0 0 / 1) var(--sc)
+        )
+        50% 100% / calc(var(--sc) * 2) 100% repeat-x;
+    mask:
+      radial-gradient(circle at 50% 0, rgb(0 0 0 / 0) calc(var(--sc) - 1px), rgb(0 0 0 / 1) var(--sc))
+        50% 0 / calc(var(--sc) * 2) 100% repeat-x,
+      radial-gradient(
+          circle at 50% 100%,
+          rgb(0 0 0 / 0) calc(var(--sc) - 1px),
+          rgb(0 0 0 / 1) var(--sc)
+        )
+        50% 100% / calc(var(--sc) * 2) 100% repeat-x;
+    -webkit-mask-composite: source-in;
+    mask-composite: intersect;
+  }
+
+  /* ---------- Varq shimmer on gold elements ---------- */
+  .varq {
+    position: relative;
+    overflow: hidden;
+    isolation: isolate;
+  }
+
+  .varq::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background-image: theme('backgroundImage.shimmer');
+    background-size: 200% 100%;
+    background-position: 200% 0;
+    opacity: 0;
+    transition: opacity 300ms ease;
+    pointer-events: none;
+    z-index: 1;
+  }
+
+  .varq:hover::after,
+  .varq:focus-visible::after {
+    opacity: 1;
+    animation: theme('animation.varq-sweep');
+  }
+
+  /* ---------- Sticker badge ---------- */
+  .sticker {
+    @apply inline-flex items-center gap-1.5 rounded-2xl px-2.5 py-1 font-body text-xs font-semibold uppercase tracking-wide;
+    box-shadow: theme('boxShadow.btc-sticker');
+  }
+
+  /* ---------- Hairline silver border ---------- */
+  .hairline {
+    @apply border border-line;
+    box-shadow: theme('boxShadow.btc-inset');
+  }
+
+  /* ---------- Jaali panel ---------- */
+  .jaali-panel {
+    background-image: theme('backgroundImage.jaali');
+    background-size: theme('backgroundSize.jaali');
+  }
+
+  /* ---------- Skip link ---------- */
+  .skip-link {
+    @apply sr-only focus:not-sr-only focus:absolute focus:left-4 focus:top-4 focus:z-[100] focus:rounded-xl focus:bg-kesar focus:px-4 focus:py-2 focus:font-semibold focus:text-ink;
+  }
+
+  /* ---------- Scrollbar ---------- */
+  .nice-scroll {
+    scrollbar-width: thin;
+    scrollbar-color: rgb(var(--btc-accent-rgb) / 0.6) transparent;
+  }
+
+  .nice-scroll::-webkit-scrollbar {
+    width: 10px;
+    height: 10px;
+  }
+
+  .nice-scroll::-webkit-scrollbar-thumb {
+    background: rgb(var(--btc-accent-rgb) / 0.55);
+    border-radius: 9999px;
+    border: 3px solid transparent;
+    background-clip: content-box;
+  }
+
+  .nice-scroll::-webkit-scrollbar-track {
+    background: transparent;
+  }
+
+  /* ---------- Live dot ---------- */
+  .live-dot {
+    @apply relative inline-flex h-2.5 w-2.5 rounded-full;
+    background: rgb(var(--btc-live-rgb));
+  }
+
+  .live-dot::after {
+    content: '';
+    @apply absolute inset-0 rounded-full;
+    background: inherit;
+    animation: theme('animation.pulse-ring');
+  }
+
+  [data-motion='reduced'] .live-dot::after {
+    animation: none;
+  }
+
+  /* ---------- Plain-language story body ---------- */
+  .plain-language {
+    max-width: 62ch;
+  }
+
+  [data-plain-language='true'] .plain-language {
+    line-height: 1.85;
+    letter-spacing: 0.01em;
+  }
+}
+
+@layer utilities {
+  .text-balance {
+    text-wrap: balance;
+  }
+
+  .text-pretty {
+    text-wrap: pretty;
+  }
+
+  .clip-scallop-b {
+    clip-path: polygon(
+      0 0,
+      100% 0,
+      100% calc(100% - 15px),
+      92% 100%,
+      84% calc(100% - 15px),
+      76% 100%,
+      68% calc(100% - 15px),
+      60% 100%,
+      52% calc(100% - 15px),
+      44% 100%,
+      36% calc(100% - 15px),
+      28% 100%,
+      20% calc(100% - 15px),
+      12% 100%,
+      4% calc(100% - 15px),
+      0 100%
+    );
+  }
+
+  .grid-rail {
+    display: grid;
+    grid-auto-flow: column;
+    grid-auto-columns: minmax(15rem, 18rem);
+    gap: 1rem;
+    overflow-x: auto;
+    scroll-snap-type: x mandatory;
+    padding-bottom: 0.75rem;
+  }
+
+  .grid-rail > * {
+    scroll-snap-align: start;
+  }
+
+  .masonry {
+    column-gap: 1.25rem;
+  }
+
+  .masonry > * {
+    break-inside: avoid;
+    margin-bottom: 1.25rem;
+  }
+}
+
+/* Print — parity exports and share cards */
+@media print {
+  body::before,
+  body::after {
+    display: none;
+  }
+
+  .no-print {
+    display: none !important;
+  }
+}

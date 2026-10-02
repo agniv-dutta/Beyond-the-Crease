@@ -1,0 +1,51 @@
+<!doctype html>
+<html lang="en" data-theme="kulfi">
+  <head>
+    <meta charset="UTF-8" />
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
+    <meta name="theme-color" content="#2D1238" />
+    <meta
+      name="description"
+      content="Beyond the Crease — AI-style storytelling, visibility parity tracking and inclusive multilingual fan communities for women's sport."
+    />
+    <title>Beyond the Crease — Every match has a story. Not every story gets heard.</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,300..900;1,9..144,300..900&family=Bricolage+Grotesque:opsz,wght@12..96,300..800&family=Atkinson+Hyperlegible:wght@400;700&display=swap"
+      rel="stylesheet"
+    />
+    <script>
+      // Apply persisted preferences before first paint to avoid theme flash.
+      (function () {
+        try {
+          var raw = localStorage.getItem('btc.prefs');
+          if (raw) {
+            var p = JSON.parse(raw);
+            var root = document.documentElement;
+            if (p.theme) root.setAttribute('data-theme', p.theme);
+            if (p.language) root.setAttribute('lang', p.language);
+            if (p.dir) root.setAttribute('dir', p.dir);
+            if (p.textSize) root.setAttribute('data-text-size', p.textSize);
+            if (p.dyslexiaFont) root.setAttribute('data-dyslexia-font', 'true');
+            if (p.highContrast) root.setAttribute('data-contrast', 'high');
+            if (p.reducedMotion) root.setAttribute('data-motion', 'reduced');
+            if (p.plainLanguage) root.setAttribute('data-plain-language', 'true');
+            if (p.lowData) root.setAttribute('data-low-data', 'true');
+          }
+        } catch (e) {
+          /* first visit — defaults in CSS apply */
+        }
+      })();
+    </script>
+  </head>
+  <body>
+    <div id="root"></div>
+    <noscript>
+      Beyond the Crease is an interactive prototype and needs JavaScript enabled. The demo data
+      is fictional.
+    </noscript>
+    <script type="module" src="/src/main.tsx"></script>
+  </body>
+</html>
