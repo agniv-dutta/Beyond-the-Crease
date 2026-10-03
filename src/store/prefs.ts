@@ -14,6 +14,9 @@ export const DEFAULT_PREFS: Prefs = {
   plainLanguage: false,
   lowData: false,
   onboarded: false,
+  skipIntro: false,
+  hasEntered: false,
+  sportPreseeded: false,
   favouriteTeamIds: [],
   favouriteAthleteIds: [],
   accessibilityNeeds: [],
@@ -35,6 +38,9 @@ interface PrefsState extends Prefs {
   toggleSound: () => void;
   completeOnboarding: (patch: Partial<Prefs>) => void;
   toggleAccessibilityNeed: (need: string) => void;
+  setSkipIntro: (skipIntro: boolean) => void;
+  setHasEntered: (hasEntered: boolean) => void;
+  setSportPreseeded: (sportPreseeded: boolean) => void;
   resetOnboarding: () => void;
   toggleFavouriteTeam: (teamId: string) => void;
   toggleFavouriteAthlete: (athleteId: string) => void;
@@ -118,7 +124,10 @@ export const usePrefs = create<PrefsState>()(
             : [...current, need],
         });
       },
-      resetOnboarding: () => set({ onboarded: false }),
+      resetOnboarding: () => set({ onboarded: false, sportPreseeded: false }),
+      setSkipIntro: (skipIntro) => set({ skipIntro }),
+      setHasEntered: (hasEntered) => set({ hasEntered }),
+      setSportPreseeded: (sportPreseeded) => set({ sportPreseeded }),
       toggleFavouriteTeam: (teamId) => {
         const current = get().favouriteTeamIds;
         set({
@@ -154,6 +163,9 @@ export const usePrefs = create<PrefsState>()(
         plainLanguage: state.plainLanguage,
         lowData: state.lowData,
         onboarded: state.onboarded,
+        skipIntro: state.skipIntro,
+        hasEntered: state.hasEntered,
+        sportPreseeded: state.sportPreseeded,
         favouriteTeamIds: state.favouriteTeamIds,
         favouriteAthleteIds: state.favouriteAthleteIds,
         accessibilityNeeds: state.accessibilityNeeds,

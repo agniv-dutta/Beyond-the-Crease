@@ -102,7 +102,7 @@ export default function MatchPage() {
         <div className="container flex flex-col gap-6">
           <Breadcrumbs
             items={[
-              { label: 'Home', to: '/' },
+              { label: 'Home', to: '/today' },
               { label: 'Live', to: '/live' },
               { label: `${teamA.short} v ${teamB.short}` },
             ]}

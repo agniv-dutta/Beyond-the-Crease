@@ -357,6 +357,12 @@ export interface Prefs {
   plainLanguage: boolean;
   lowData: boolean;
   onboarded: boolean;
+  /** Visitor ticked "Skip the intro next time" on the landing page. */
+  skipIntro: boolean;
+  /** Has the visitor stepped through the gate at least once? */
+  hasEntered: boolean;
+  /** Sport was chosen on the landing page, so onboarding pre-fills and skips that step. */
+  sportPreseeded: boolean;
   favouriteTeamIds: string[];
   favouriteAthleteIds: string[];
   accessibilityNeeds: string[];

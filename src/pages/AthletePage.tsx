@@ -86,7 +86,7 @@ export default function AthletePage() {
         <div className="container flex flex-col gap-6">
           <Breadcrumbs
             items={[
-              { label: 'Home', to: '/' },
+              { label: 'Home', to: '/today' },
               { label: 'Athletes', to: '/athletes' },
               { label: athlete.name },
             ]}

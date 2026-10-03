@@ -26,7 +26,8 @@ No backend, no API keys, no external AI service. The whole app runs in the brows
 
 | Area | Route | What is actually implemented |
 | --- | --- | --- |
-| Home | `/` | Hero, live ticker, featured rail, story feed with filters and pagination, scouting badges |
+| Landing | `/` | "The Pavilion Gate" — hero, gate transition, live ticker, parity teaser (see below) |
+| Today | `/today` | Hero, live ticker, featured rail, story feed with filters and pagination, scouting badges |
 | Live | `/live` | Live and completed matches, ball-by-ball moments, webhook-driven ticker, fire-test event |
 | Match | `/match/:id` | Score, win probability, timeline, stories from this match, related moments |
 | Athletes | `/athletes` | Search, team, language and sort filters across 24 cricketers |
@@ -42,6 +43,44 @@ No backend, no API keys, no external AI service. The whole app runs in the brows
 | Dev | `/dev` | Every API route, webhook simulation and delivery log, fairness rules, persisted-store controls |
 | Design | `/design` | Mithai Dusk tokens read live from the stylesheet, type scale, motifs, component previews |
 | 404 | `*` | Accessible not-found page with recovery links |
+
+---
+
+## Landing page — "The Pavilion Gate"
+
+`/` is a light, lazily loaded marketing route (`src/pages/Landing.tsx` +
+`src/features/landing/`). The former Home moved to `/today`; every nav item, logo link,
+breadcrumb, command-palette entry and 404 suggestion follows it.
+
+- **Own theme, no side effects.** The page sets `data-theme="dusk"` on mount and restores the
+  visitor's saved theme on unmount — the stored preference is never touched.
+- **Structure.** Hero → live ticker (marquee with pause, reduced-motion aware) → visibility
+  gap (paired bars + count-up) → how it works → tone playground (four tones + fairness fix) →
+  parity teaser (24-month SVG lines + gap-closer slider) → circles & languages (join buttons,
+  six-language grid that re-renders the page live) → cross-sport picker (story feed swaps per
+  sport) → final CTA. Every control navigates, mutates a store, opens a modal or calls the
+  mock API; the primary CTA always leads to `/today`.
+- **The gate.** Choosing *Enter the Pavilion* closes two aubergine doors over the page, flips
+  `prefs.hasEntered`, restores the theme, then opens them again over `/today` — with an
+  aria-live announcement, a hover/focus prefetch of the Today bundle, and a fade-only path
+  under `prefers-reduced-motion`.
+- **Data is real app data.** Ticker, gap, parity and circles sections go through the same
+  `api` layer (MSW now, real endpoints later), so their loading, empty and error states are
+  genuine.
+- **Skip control.** The hero offers "Skip the intro next time" and `/access` can re-enable the
+  landing page. Sport chips pre-seed onboarding, which then skips its sport step.
+- **Light by design.** One route-level lazy chunk (~8 kB gzip), no video, no new libraries —
+  only React, framer-motion and react-i18next, which the app already ships.
+
+### How the landing maps to Track 1
+
+| Goal | Where it shows up on the landing page |
+| --- | --- |
+| Sport visibility | Visibility-gap bars, parity lines and KPIs are the page's centrepiece, with a demo-data note |
+| Fan engagement | Live ticker, tone playground, join buttons, and CTAs into Studio, Parity, Circles |
+| Inclusive community | Six-language grid (Arabic RTL), moderated-circle cards, access mentions |
+| Storytelling | Headline-to-feed narrative, 60-second tour modal, per-sport story previews |
+| Craft & access | Curtain entrance that settles static, WCAG AA dusk contrast, keyboard + reduced-motion support |
 
 ---
 

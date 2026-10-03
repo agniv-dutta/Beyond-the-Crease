@@ -21,17 +21,24 @@ export function Onboarding() {
   const [step, setStep] = useState<Step>('language');
   const { t, setLanguage } = useLanguage();
 
-  const index = STEPS.indexOf(step);
+  /**
+   * The landing page has a sport chip row, so a visitor who used it already
+   * answered the sport step — onboarding skips it rather than asking twice.
+   */
+  const steps: readonly Step[] = prefs.sportPreseeded
+    ? STEPS.filter((s) => s !== 'sport')
+    : STEPS;
+  const index = steps.indexOf(step);
 
   const next = useCallback(() => {
-    if (index < STEPS.length - 1) setStep(STEPS[index + 1]);
+    if (index < steps.length - 1) setStep(steps[index + 1]);
     else completeOnboarding({});
-  }, [index, completeOnboarding]);
+  }, [index, steps, completeOnboarding]);
 
   const back = useCallback(() => {
-    if (index > 0) setStep(STEPS[index - 1]);
+    if (index > 0) setStep(steps[index - 1]);
     else completeOnboarding({});
-  }, [index, completeOnboarding]);
+  }, [index, steps, completeOnboarding]);
 
   if (prefs.onboarded) return null;
 
@@ -51,7 +58,7 @@ export function Onboarding() {
       >
         <div className="flex flex-col gap-2">
           <span className="sticker self-start bg-kesar-soft text-ink">
-            Step {index + 1} of {STEPS.length}
+            Step {index + 1} of {steps.length}
           </span>
           <h2 id="onboarding-title" className="font-display text-display-sm text-balance text-body">
             {step === 'language' && 'Choose your language'}
@@ -186,7 +193,7 @@ export function Onboarding() {
               Back
             </Button>
             <Button variant="primary" onClick={next}>
-              {index === STEPS.length - 1 ? 'Start reading' : 'Next'}
+              {index === steps.length - 1 ? 'Start reading' : 'Next'}
             </Button>
           </div>
         </div>

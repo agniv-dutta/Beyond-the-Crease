@@ -56,9 +56,9 @@ varq foil against a deep aubergine dusk.
 
 ## Routes
 
-`/` Home · `/live` · `/match/:id` · `/story/:id` · `/athletes` · `/athlete/:id` · `/studio` ·
-`/parity` · `/circles` · `/circle/:id` · `/access` · `/about` · `/partners` · `/dev` ·
-`/design` · `*` 404
+`/` Landing ("The Pavilion Gate") · `/today` Home · `/live` · `/match/:id` · `/story/:id` ·
+`/athletes` · `/athlete/:id` · `/studio` · `/parity` · `/circles` · `/circle/:id` · `/access` ·
+`/about` · `/partners` · `/dev` · `/design` · `*` 404
 
 ## Commands
 
@@ -69,3 +69,13 @@ npm run build      # typecheck + production build
 npm run typecheck  # tsc --noEmit
 npm run preview
 ```
+
+## Landing Page Rules
+
+- Add a landing page at "/" called "The Pavilion Gate". The existing Home moves to "/today". Update every internal link, nav item, logo link, and redirect accordingly.
+- Reuse the existing design tokens and primitives only (ink #2D1238, canvas #F2E6CF, pomelo #FF6F8E, kesar #F2B33D, pistachio #A9CC6B, rose #F4A6B7, mulberry #6E1F4B, silver #CFD2DA; Fraunces + Bricolage Grotesque). Never use black, white, teal, cyan, rust, or generic SaaS blue/indigo gradients.
+- The landing page uses the "dusk" theme by default (aubergine ground, cream text), independent of the user's saved theme, and must not overwrite it.
+- Every button, link, and interactive element must work. The primary CTA always leads to /today.
+- Respect prefers-reduced-motion (replace animations with fades), keep WCAG AA contrast, and support keyboard navigation with visible focus rings.
+- Reuse the mock API, webhook hook, i18n and store. No new backend. Keep fictional athletes and the "Demo data" note.
+- Lazy-load the landing route and keep it light: no autoplay video, no heavy libraries beyond what the project already uses.

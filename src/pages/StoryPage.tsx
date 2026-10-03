@@ -74,7 +74,7 @@ export default function StoryPage() {
     return (
       <div className="container py-10">
         <ErrorState title="That story is not in the feed" body={state.error.message} onRetry={state.reload} />
-        <Link to="/">
+        <Link to="/today">
           <Button variant="outline" className="mt-5" icon={<ArrowLeft aria-hidden className="h-4 w-4" />}>
             Back to the feed
           </Button>
@@ -106,9 +106,8 @@ export default function StoryPage() {
           <div className="container flex flex-col gap-6">
             <Breadcrumbs
               items={[
-                { label: 'Home', to: '/' },
-                { label: 'Feed', to: '/' },
-                { label: story.theme, to: `/?theme=${story.theme}` },
+                { label: 'Home', to: '/today' },
+                { label: story.theme, to: `/today?theme=${story.theme}` },
                 { label: translation?.title ?? story.title },
               ]}
             />
@@ -427,7 +426,7 @@ export default function StoryPage() {
             this prototype are fictional.
           </p>
           <div className="mt-2 flex flex-wrap gap-2">
-            <Link to="/">
+            <Link to="/today">
               <Button variant="pistachio">Back to the feed</Button>
             </Link>
             <Link to="/circles">

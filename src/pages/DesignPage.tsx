@@ -78,7 +78,7 @@ export default function DesignPage() {
     <div className="flex flex-col gap-12">
       <section className="jaali-panel hairline bg-surface py-8">
         <div className="container flex flex-col gap-5">
-          <Breadcrumbs items={[{ label: 'Home', to: '/' }, { label: 'Design' }]} />
+          <Breadcrumbs items={[{ label: 'Home', to: '/today' }, { label: 'Design' }]} />
           <SectionHeading
             eyebrow="Design system"
             title="Mithai Dusk"
@@ -315,7 +315,7 @@ export default function DesignPage() {
               <span className="font-body text-xs text-muted">#BeyondTheCrease</span>
             </span>
           </div>
-          <Link to="/">
+          <Link to="/today">
             <Button variant="outline" size="sm">
               Back to the feed
             </Button>

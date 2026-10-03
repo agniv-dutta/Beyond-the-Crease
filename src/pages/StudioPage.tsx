@@ -218,7 +218,7 @@ const published = studio.drafts.filter((d) => d.published);
     <div className="flex flex-col gap-10">
       <section className="jaali-panel hairline bg-surface py-8">
         <div className="container flex flex-col gap-5">
-          <Breadcrumbs items={[{ label: 'Home', to: '/' }, { label: 'Studio' }]} />
+          <Breadcrumbs items={[{ label: 'Home', to: '/today' }, { label: 'Studio' }]} />
           <SectionHeading
             eyebrow="The Studio"
             title="Draft the story, then argue with the machine about it"

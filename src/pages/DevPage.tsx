@@ -152,7 +152,7 @@ export default function DevPage() {
     <div className="flex flex-col gap-10">
       <section className="jaali-panel hairline bg-surface py-8">
         <div className="container flex flex-col gap-5">
-          <Breadcrumbs items={[{ label: 'Home', to: '/' }, { label: 'Dev' }]} />
+          <Breadcrumbs items={[{ label: 'Home', to: '/today' }, { label: 'Dev' }]} />
           <SectionHeading
             eyebrow="Developer console"
             title="Everything the demo fakes, in one place"

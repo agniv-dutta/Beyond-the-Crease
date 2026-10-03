@@ -7,6 +7,15 @@ import { ATHLETE_BY_ID } from '@/data/athletes';
 import { CIRCLES } from '@/data/circles';
 import { MATCHES } from '@/data/matches';
 
+const PAGES = [
+  { label: 'Today — the story feed', to: '/today', terms: 'today home feed' },
+  { label: 'The Pavilion Gate — landing page', to: '/', terms: 'landing gate pavilion intro enter' },
+  { label: 'The Studio — draft a story', to: '/studio', terms: 'studio write draft' },
+  { label: 'Parity Pulse — visibility gap', to: '/parity', terms: 'parity visibility gap airtime' },
+  { label: 'Fan circles', to: '/circles', terms: 'circles community rooms' },
+  { label: 'Access centre', to: '/access', terms: 'access settings preferences' },
+];
+
 export function CommandPalette() {
   const [open, setOpen] = useState(false);
   const [query, setQuery] = useState('');
@@ -41,6 +50,10 @@ export function CommandPalette() {
     if (!debounced.trim()) return [];
     const q = debounced.trim().toLowerCase();
     const list: { label: string; to: string; category: string }[] = [];
+    PAGES.forEach((p) => {
+      if (p.label.toLowerCase().includes(q) || p.terms.split(' ').some((term) => term.startsWith(q)))
+        list.push({ label: p.label, to: p.to, category: 'Pages' });
+    });
     STORIES.forEach((s) => {
       if (s.title.toLowerCase().includes(q) || s.summary.toLowerCase().includes(q))
         list.push({ label: s.title, to: `/story/${s.id}`, category: 'Stories' });
@@ -54,7 +67,7 @@ export function CommandPalette() {
     CIRCLES.forEach((c) => {
       if (c.name.toLowerCase().includes(q)) list.push({ label: c.name, to: `/circle/${c.id}`, category: 'Circles' });
     });
-    return list.slice(0, 8);
+    return list.slice(0, 10);
   }, [debounced]);
 
   const go = (to: string) => {

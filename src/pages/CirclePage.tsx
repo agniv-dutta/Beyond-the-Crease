@@ -170,7 +170,7 @@ export default function CirclePage() {
         <div className="container flex flex-wrap items-start gap-4">
           <Breadcrumbs
             items={[
-              { label: 'Home', to: '/' },
+              { label: 'Home', to: '/today' },
               { label: 'Circles', to: '/circles' },
               { label: data.name },
             ]}

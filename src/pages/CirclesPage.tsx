@@ -90,7 +90,7 @@ export default function CirclesPage() {
     <div className="flex flex-col gap-10">
       <section className="jaali-panel hairline bg-surface py-8">
         <div className="container flex flex-col gap-5">
-          <Breadcrumbs items={[{ label: 'Home', to: '/' }, { label: 'Circles' }]} />
+          <Breadcrumbs items={[{ label: 'Home', to: '/today' }, { label: 'Circles' }]} />
           <SectionHeading
             eyebrow="Fan circles"
             title="Rooms where the women’s game is the main event"

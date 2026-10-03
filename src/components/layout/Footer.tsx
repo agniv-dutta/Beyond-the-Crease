@@ -9,7 +9,7 @@ const COLUMNS: { heading: string; links: { to: string; labelKey: string }[] }[] 
   {
     heading: 'Watch & read',
     links: [
-      { to: '/', labelKey: 'nav.home' },
+      { to: '/today', labelKey: 'nav.home' },
       { to: '/live', labelKey: 'nav.live' },
       { to: '/athletes', labelKey: 'nav.athletes' },
       { to: '/parity', labelKey: 'nav.parity' },
@@ -28,6 +28,7 @@ const COLUMNS: { heading: string; links: { to: string; labelKey: string }[] }[] 
     heading: 'The project',
     links: [
       { to: '/about', labelKey: 'nav.about' },
+      { to: '/', labelKey: 'nav.landing' },
       { to: '/design', labelKey: 'nav.design' },
       { to: '/dev', labelKey: 'nav.dev' },
     ],
@@ -37,6 +38,7 @@ const COLUMNS: { heading: string; links: { to: string; labelKey: string }[] }[] 
 export function Footer() {
   const { t } = useLanguage();
   const badges = useGamification((s) => s.badges);
+  const setSkipIntro = usePrefs((s) => s.setSkipIntro);
   const prefs = usePrefs();
 
   return (
@@ -72,6 +74,10 @@ export function Footer() {
                   <li key={link.to}>
                     <Link
                       to={link.to}
+                      onClick={() => {
+                        // The landing is skippable; asking for it cancels the skip.
+                        if (link.to === '/') setSkipIntro(false);
+                      }}
                       className="rounded font-body text-sm text-body underline-offset-4 hover:text-accent hover:underline focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent"
                     >
                       {t(link.labelKey)}

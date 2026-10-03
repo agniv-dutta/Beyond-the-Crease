@@ -38,7 +38,7 @@ export default function AboutPage() {
     <div className="flex flex-col gap-12">
       <section className="jaali-panel hairline bg-surface py-10">
         <div className="container flex flex-col gap-6">
-          <Breadcrumbs items={[{ label: 'Home', to: '/' }, { label: 'About' }]} />
+          <Breadcrumbs items={[{ label: 'Home', to: '/today' }, { label: 'About' }]} />
           <div className="flex flex-wrap items-end justify-between gap-6">
             <div className="flex max-w-2xl flex-col gap-4">
               <Badge tone="kesar">ICC Global Hackathon · Track 1</Badge>
@@ -51,7 +51,7 @@ export default function AboutPage() {
                 four other sports on the same rails.
               </p>
               <div className="flex flex-wrap gap-2">
-                <Link to="/">
+                <Link to="/today">
                   <Button icon={<Sparkles aria-hidden className="h-4 w-4" />}>Open the feed</Button>
                 </Link>
                 <Link to="/parity">

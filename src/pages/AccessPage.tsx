@@ -1,10 +1,11 @@
 import { useMemo, useState } from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import {
   Accessibility,
   BookOpen,
   Check,
   Contrast,
+  DoorOpen,
   Eye,
   Keyboard,
   Languages as LanguagesIcon,
@@ -59,6 +60,7 @@ export default function AccessPage() {
   const [tab, setTab] = useState('settings');
   const prefs = usePrefs();
   const safety = useSafety();
+  const navigate = useNavigate();
   const [log, setLog] = useState(getWebhookLog);
 
   /**
@@ -79,7 +81,7 @@ export default function AccessPage() {
     <div className="flex flex-col gap-10">
       <section className="jaali-panel hairline bg-surface py-8">
         <div className="container flex flex-col gap-5">
-          <Breadcrumbs items={[{ label: 'Home', to: '/' }, { label: 'Access' }]} />
+          <Breadcrumbs items={[{ label: 'Home', to: '/today' }, { label: 'Access' }]} />
           <SectionHeading
             eyebrow="Access centre"
             title="Turn anything on or off. Nothing is behind a sign-up."
@@ -168,6 +170,33 @@ export default function AccessPage() {
                 checked={prefs.lowData}
                 onChange={prefs.setLowData}
               />
+            </Card>
+
+            <Card className="flex flex-col gap-4 p-6">
+              <h2 className="flex items-center gap-2 font-display text-title text-body">
+                <DoorOpen aria-hidden className="h-5 w-5 text-accent" />
+                The Pavilion Gate
+              </h2>
+              <p className="font-body text-sm text-muted">
+                The landing page at / opens first. Skip it and you go straight to /today — you can always
+                bring it back from here or from the footer, and asking for it turns the skip back off.
+              </p>
+              <Toggle
+                label="Skip the intro next time"
+                description="Opens the app on the story feed instead of the landing page."
+                checked={prefs.skipIntro}
+                onChange={prefs.setSkipIntro}
+              />
+              <Button
+                variant="outline"
+                icon={<DoorOpen aria-hidden className="h-4 w-4" />}
+                onClick={() => {
+                  prefs.setSkipIntro(false);
+                  navigate('/');
+                }}
+              >
+                Show the landing page again
+              </Button>
             </Card>
 
             <div className="flex flex-col gap-6">

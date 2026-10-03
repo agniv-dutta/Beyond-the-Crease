@@ -3,7 +3,7 @@ import { Compass, Home } from 'lucide-react';
 import { Button, Card, TextLink } from '@/components/ui';
 
 const SUGGESTIONS = [
-  { to: '/', label: 'Story feed', hint: 'Latest arcs from the fictional dataset' },
+  { to: '/today', label: 'Story feed', hint: 'Latest arcs from the fictional dataset' },
   { to: '/live', label: 'Live now', hint: 'Moments turning into stories' },
   { to: '/athletes', label: 'Athletes', hint: '24 cricketers with arcs and stats' },
   { to: '/parity', label: 'Parity dashboard', hint: 'Who gets the airtime, and the CSV' },
@@ -30,7 +30,7 @@ export default function NotFoundPage() {
       </div>
 
       <div className="flex flex-wrap justify-center gap-2">
-        <Link to="/">
+        <Link to="/today">
           <Button icon={<Home aria-hidden className="h-4 w-4" />}>Back to the feed</Button>
         </Link>
         <Link to="/live">

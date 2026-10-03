@@ -86,7 +86,7 @@ export default function PartnersPage() {
     <div className="flex flex-col gap-12">
       <section className="jaali-panel hairline bg-surface py-8">
         <div className="container flex flex-col gap-6">
-          <Breadcrumbs items={[{ label: 'Home', to: '/' }, { label: 'Partners' }]} />
+          <Breadcrumbs items={[{ label: 'Home', to: '/today' }, { label: 'Partners' }]} />
           <SectionHeading
             eyebrow="Partners"
             title="Four ways in, one shared interest"
