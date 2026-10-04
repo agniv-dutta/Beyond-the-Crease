@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react';
+import { Fragment, useEffect, useState } from 'react';
 import { motion } from 'framer-motion';
 import { ChevronLeft, ChevronRight, LogIn, Pause, Play, Radio } from 'lucide-react';
 import {
@@ -57,22 +57,28 @@ export function Hero() {
 
   // Each line lives inside an overflow mask; words rise from below it. Line
   // classes (like the headline gradient) go on the mask so they span the words.
-  const line = (text: string, delay: number, lineClassName?: string) => (
-    <span className={cn('block overflow-hidden', lineClassName)}>
-      {text.split(' ').map((word, i) => (
-        <motion.span
-          key={`${word}-${i}`}
-          className="inline-block"
-          initial={reduced ? { opacity: 0 } : { y: '115%', opacity: 0 }}
-          animate={reduced ? { opacity: 1 } : { y: '0%', opacity: 1 }}
-          transition={{ duration: 0.65, delay: delay + i * 0.055, ease: [0.16, 1, 0.3, 1] }}
-        >
-          {word}
-          {i < text.split(' ').length - 1 ? ' ' : ''}
-        </motion.span>
-      ))}
-    </span>
-  );
+  // The joining space sits *between* the word spans: a trailing space inside an
+  // inline-block is collapsed by the browser, which would glue the words together.
+  const line = (text: string, delay: number, lineClassName?: string) => {
+    const words = text.split(' ');
+    return (
+      <span className={cn('block overflow-hidden', lineClassName)}>
+        {words.map((word, i) => (
+          <Fragment key={`${word}-${i}`}>
+            {i > 0 && ' '}
+            <motion.span
+              className="inline-block"
+              initial={reduced ? { opacity: 0 } : { y: '115%', opacity: 0 }}
+              animate={reduced ? { opacity: 1 } : { y: '0%', opacity: 1 }}
+              transition={{ duration: 0.65, delay: delay + i * 0.055, ease: [0.16, 1, 0.3, 1] }}
+            >
+              {word}
+            </motion.span>
+          </Fragment>
+        ))}
+      </span>
+    );
+  };
 
   const rise = (delay: number) =>
     reduced
